@@ -19,7 +19,7 @@ class Product(models.Model):
     name = models.CharField(max_length=255)    #наименование
     description = models.TextField()    #описание,
     image = models.ImageField(upload_to='products/', **NULLABLE)    #изображение (превью),
-    category = models.ForeignKey(Category, on_delete=models.CASCADE())    #категория,
+    category = models.ForeignKey(Category, on_delete=models.CASCADE)    #категория,
     price = models.DecimalField(max_digits=10, decimal_places=3)     #цена за покупку,
     created_at = models.DateTimeField(default=timezone.now)    #дата создания,
     recreated_at = models.DateTimeField(auto_now=True)    #дата последнего изменения.
