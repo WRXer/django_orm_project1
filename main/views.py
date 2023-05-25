@@ -37,16 +37,5 @@ def products(request):
 
 
 def product_details(request, product_id):
-    """# Получение объекта товара по идентификатору
-    product_details = Product.objects.all()
-    for item in product_details:
-        product = item
-    context = {
-        'title': f'{product}'
-
-    }"""
-
     product = get_object_or_404(Product, pk=product_id)
-
-
     return render(request, 'main/product_details.html', {'product': product})
