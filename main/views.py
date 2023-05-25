@@ -1,6 +1,6 @@
 from django.shortcuts import render
 
-from main.models import Category
+from main.models import Category, Product
 
 
 # Create your views here.
@@ -22,3 +22,15 @@ def contact(request):
         'title': 'Контакты'
     }
     return render(request, 'main/contact.html', context)
+
+
+def products(request):
+    products_list = Product.objects.all()
+    context = {
+        'object_list': products_list,
+        'title': 'Все товары'
+    }
+    for product in products_list:
+        if len(product.description) > 100:
+            product.description = product.description[:100] + "..."
+    return render(request, 'main/products.html', context)
