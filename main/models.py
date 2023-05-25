@@ -25,7 +25,7 @@ class Product(models.Model):
     recreated_at = models.DateTimeField(auto_now=True)    #дата последнего изменения.
 
     def __str__(self):
-        return f'{self.name} {self.description}'
+        return f'{self.image}\n{self.name} {self.description}'
 
     class Meta:
         verbose_name = "Product"   # наименование модели в единственном числе

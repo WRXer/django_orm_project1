@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 
 from main.models import Category, Product
 
@@ -34,3 +34,19 @@ def products(request):
         if len(product.description) > 100:
             product.description = product.description[:100] + "..."
     return render(request, 'main/products.html', context)
+
+
+def product_details(request, product_id):
+    """# Получение объекта товара по идентификатору
+    product_details = Product.objects.all()
+    for item in product_details:
+        product = item
+    context = {
+        'title': f'{product}'
+
+    }"""
+
+    product = get_object_or_404(Product, pk=product_id)
+
+
+    return render(request, 'main/product_details.html', {'product': product})
