@@ -2,6 +2,7 @@
 
 
 {% block content %}
+
 <style>
     .centered-container {
         text-align: center;
@@ -11,9 +12,11 @@
         text-align: left;
     }
 </style>
+    {% load my_tags %}
     <ul>
         <h4>{{ product.name }}</h4>
-        <img class="img-thumbnail" src="/media/products/produkty.jpg" alt="Thumbnail image" width="200" height="200">
+        <img class="img-thumbnail" src="{% mediapath product.image %}" alt="Thumbnail image" width="200" height="200"/>
+
     </ul>
         <ul>
             <div class="centered-container">
