@@ -1,13 +1,29 @@
 {% extends 'main/base.html' %}
 
 {% block content %}
-    <img class="img-thumbnail" src="/media/products/produkty.jpg" alt="Thumbnail image" width="200" height="200">
+<style>
+    .centered-container {
+        text-align: center;
+    }
+    .centered-container ul {
+        display: inline-block;
+        text-align: left;
+    }
+</style>
+    <ul>
+        <h4>{{ product.name }}</h4>
+        <img class="img-thumbnail" src="/media/products/produkty.jpg" alt="Thumbnail image" width="200" height="200">
+    </ul>
+        <ul>
+            <div class="centered-container">
 
-    <h4>{{ product.name }}</h4>
-        <div class=”myclass”>
-            {{ product.description }}
-            <p>Цена: {{ product.price }} руб.</p>
-        </div>
-
-
+              <div class="card mb-4 box-shadow">
+                <div class="card-body">
+                    <p style="text-align: left;">{{ product.description }} </p>
+                        <p style="text-align: left;">Цена: {{ product.price }} руб.</p>
+                </div>
+              </div>
+            </div>
+        </ul>
 {% endblock %}
+

@@ -38,4 +38,5 @@ def products(request):
 
 def product_details(request, product_id):
     product = get_object_or_404(Product, pk=product_id)
+
     return render(request, 'main/product_details.html', {'product': product})
