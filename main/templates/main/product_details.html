@@ -1,9 +1,13 @@
 {% extends 'main/base.html' %}
 
 {% block content %}
-    <img src="{{ product.image}}" alt="{{ product.name }}" width="200" height="200">
-    <h2>{{ product.name }}</h2>
-    <p>{{ product.description }}</p>
-    <p>Цена: {{ product.price }} руб.</p>
+    <img class="img-thumbnail" src="/media/products/produkty.jpg" alt="Thumbnail image" width="200" height="200">
+
+    <h4>{{ product.name }}</h4>
+        <div class=”myclass”>
+            {{ product.description }}
+            <p>Цена: {{ product.price }} руб.</p>
+        </div>
+
 
 {% endblock %}
