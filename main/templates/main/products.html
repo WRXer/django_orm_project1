@@ -4,11 +4,11 @@
     <body>
         <ul>
             {% for object in object_list %}
-
+                {% load my_tags %}
                 <div class="col-md-14">
                   <div class="card mb-4 box-shadow">
                     <div class="card-body">
-                        <img class="img-thumbnail" src="/media/products/produkty.jpg" alt="Thumbnail image" width="200" height="200">
+                        <img class="img-thumbnail" src="{% mediapath object.image %}" alt="Thumbnail image" width="200" height="200"/>
                         <p class="card-text"><a href="{% url 'main:product_details' product_id=object.id %}">{{ object.name }}</a></p>
                         <p class="card-text">{{ object.description }}</p>
                         <p class="card-text">{{ object.price }} руб.</p>
