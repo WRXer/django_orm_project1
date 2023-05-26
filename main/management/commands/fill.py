@@ -6,13 +6,13 @@ from main.models import Category, Product
 class Command(BaseCommand):
     def handle(self, *args, **options):
         category_list = [
-            {'name': 'Бакалея', 'description': '..'},
-            {'name': 'Молочка', 'description': '..'},
-            {'name': 'Заморожка', 'description': '..'},
-            {'name': 'Хлебобулочные', 'description': ',,'},
-            {'name': 'Новинки', 'description': ',,'},
-            {'name': 'Акции', 'description': ',,'},
-            {'name': 'Посуда', 'description': ',,'},
+            {'id': '100', 'name': 'Бакалея', 'description': '..'},
+            {'id': '101', 'name': 'Молочка', 'description': '..'},
+            {'id': '102', 'name': 'Заморожка', 'description': '..'},
+            {'id': '103', 'name': 'Хлебобулочные', 'description': ',,'},
+            {'id': '104', 'name': 'Новинки', 'description': ',,'},
+            {'id': '105', 'name': 'Акции', 'description': ',,'},
+            {'id': '106', 'name': 'Посуда', 'description': ',,'},
 
         ]
         #for category_item in category_list:
