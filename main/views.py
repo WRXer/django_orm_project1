@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404
-
-from main.models import Category, Product
+from django.views import generic
+from main.models import Category, Product, Blogs
 
 
 # Create your views here.
@@ -40,3 +40,22 @@ def product_details(request, product_id):
     product = get_object_or_404(Product, pk=product_id)
 
     return render(request, 'main/product_details.html', {'product': product})
+
+#def blogs(request):
+    #blogs_list = Blogs.objects.all()
+    #context = {
+    #    'object_list': blogs_list,
+    #    'title': 'Все товары'
+    #}
+    #for product in blogs_list:
+    #    if len(product.description) > 100:
+    #        product.description = product.description[:100] + "..."
+    #return render(request, 'main/products.html', context)
+
+
+class BlogsListView(generic.ListView):
+    model = Blogs
+    extra_context = {
+        'title': 'Блог'
+    }
+

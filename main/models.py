@@ -31,17 +31,18 @@ class Product(models.Model):
         verbose_name = "Product"   # наименование модели в единственном числе
         verbose_name_plural = "Products"    # множественное число наименования модели
 
-class Blog(models.Model):
+
+class Blogs(models.Model):
     name = models.CharField(max_length=100, verbose_name="blog_name")    #заголовок
     slug = models.CharField(max_length=255)    #slug (реализовать через CharField)
     description = models.TextField(null=True, blank=True, verbose_name="blog_description")    #содержимое
-    image = models.ImageField(upload_to="images")    #превью (изображение)
-    time_create = models.DateTimeField(default=timezone.now)    #дата создания
+    image = models.ImageField(upload_to='products/', **NULLABLE)    #превью (изображение)
+    created_at = models.DateTimeField(default=timezone.now)    #дата создания
     is_published = models.BooleanField(default=True)    #признак публикации
-    view_count = models.IntegerField(verbose_name="blog_views", default=0)    #количество просмотров
+    blog_views = models.IntegerField(verbose_name="blog_views", default=0)    #количество просмотров
 
     def __str__(self):
-        return self.name
+        return f'{self.name}'
 
     class Meta:
         verbose_name = "Blog"    # наименование модели в единственном числе

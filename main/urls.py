@@ -1,7 +1,7 @@
 from django.urls import path
 
 from main.apps import MainConfig
-from main.views import contact, index, products, product_details
+from main.views import contact, index, products, product_details, BlogsListView
 
 app_name = MainConfig.name
 
@@ -10,4 +10,5 @@ urlpatterns = [
     path('contact/', contact, name='contact'),
     path('products/', products, name='products'),
     path('product_details/<int:product_id>/', product_details, name='product_details'),
+    path('blogs/', BlogsListView.as_view(), name= 'blogs')
 ]
