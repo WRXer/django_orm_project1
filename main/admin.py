@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from main.models import Product, Category, Blogs
+from main.models import Product, Category, Blogs, Contacts
 
 
 # Register your models here.
@@ -9,6 +9,9 @@ from main.models import Product, Category, Blogs
 class CategoryAdmin(admin.ModelAdmin):
     list_display = ('id', 'name',)
 
+@admin.register(Contacts)
+class ContactAdmin(admin.ModelAdmin):
+    list_display = ("id", "name", "email",)
 
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):

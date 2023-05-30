@@ -1,57 +1,51 @@
 from django.shortcuts import render, get_object_or_404
 from django.views import generic
-from main.models import Category, Product, Blogs
+from main.models import Category, Product, Blogs, Contacts
 
 
 # Create your views here.
-def index(request):
-    category_list = Category.objects.all()
-    context = {
-        'object_list': category_list,
+class IndexListView(generic.ListView):
+    model = Category
+    extra_context = {
         'title': 'Главная'
     }
-    return render(request, 'main/index.html', context)
-
-def contact(request):
-    if request.method == 'POST':
-        name = request.POST.get('name')
-        email = request.POST.get('email')
-        message = request.POST.get('message')
-
-    context = {
-        'title': 'Контакты'
-    }
-    return render(request, 'main/contact.html', context)
 
 
-def products(request):
-    products_list = Product.objects.all()
-    context = {
-        'object_list': products_list,
+# def contact(request):
+#     if request.method == 'POST':
+#         name = request.POST.get('name')
+#         email = request.POST.get('email')
+#         message = request.POST.get('message')
+#
+#     context = {
+#         'title': 'Контакты'
+#     }
+#     return render(request, 'main/contact.html', context)
+class ContactCreateView(generic.CreateView):
+    model = Contacts
+    template_name = "main/contact.html"
+    fields = ('name', 'email', 'message')
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context_data = super().get_context_data(**kwargs)
+        context_data["title"] = "Наши контакты"
+        return context_data
+
+
+class ProductsListView(generic.ListView):
+    model = Product
+    extra_context = {
         'title': 'Все товары'
     }
-    for product in products_list:
-        if len(product.description) > 100:
-            product.description = product.description[:100] + "..."
-    return render(request, 'main/products.html', context)
 
 
-def product_details(request, product_id):
-    product = get_object_or_404(Product, pk=product_id)
+class ProductsDetailView(generic.DetailView):
+    model = Product
 
-    return render(request, 'main/product_details.html', {'product': product})
-
-#def blogs(request):
-    #blogs_list = Blogs.objects.all()
-    #context = {
-    #    'object_list': blogs_list,
-    #    'title': 'Все товары'
-    #}
-    #for product in blogs_list:
-    #    if len(product.description) > 100:
-    #        product.description = product.description[:100] + "..."
-    #return render(request, 'main/products.html', context)
-
+    def get_context_data(self, **kwargs):
+        context_data = super().get_context_data(**kwargs)
+        #context_data['title'] = context_data['object']
+        return context_data
 
 class BlogsListView(generic.ListView):
     model = Blogs

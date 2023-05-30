@@ -15,6 +15,19 @@ class Category(models.Model):
         verbose_name = "Category"     # наименование модели в единственном числе
         verbose_name_plural = "Categories"     # множественное число наименования модели
 
+class Contacts(models.Model):
+    name = models.CharField(max_length=100, verbose_name="user__name")
+    email = models.CharField(max_length=100, verbose_name="user_email")
+    message = models.CharField(max_length=100, verbose_name="user_message")
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name = "contact"
+        verbose_name_plural = "contacts"
+
+
 class Product(models.Model):
     name = models.CharField(max_length=255)    #наименование
     description = models.TextField()    #описание,
