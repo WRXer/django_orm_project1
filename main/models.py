@@ -30,3 +30,19 @@ class Product(models.Model):
     class Meta:
         verbose_name = "Product"   # наименование модели в единственном числе
         verbose_name_plural = "Products"    # множественное число наименования модели
+
+class Blog(models.Model):
+    name = models.CharField(max_length=100, verbose_name="blog_name")    #заголовок
+    slug = models.CharField(max_length=255)    #slug (реализовать через CharField)
+    description = models.TextField(null=True, blank=True, verbose_name="blog_description")    #содержимое
+    image = models.ImageField(upload_to="images")    #превью (изображение)
+    time_create = models.DateTimeField(default=timezone.now)    #дата создания
+    is_published = models.BooleanField(default=True)    #признак публикации
+    view_count = models.IntegerField(verbose_name="blog_views", default=0)    #количество просмотров
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name = "Blog"    # наименование модели в единственном числе
+        verbose_name_plural = "Blogs"    # множественное число наименования модели
