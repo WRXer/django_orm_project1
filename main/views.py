@@ -1,6 +1,6 @@
-from django.shortcuts import render, get_object_or_404
 from django.views import generic
 from main.models import Category, Product, Blogs, Contacts
+from .forms import AppBlogsForm
 
 
 # Create your views here.
@@ -77,3 +77,9 @@ class BlogsDetailView(generic.DetailView):
         context = self.get_context_data(object=self.object)
         return self.render_to_response(context)
 
+
+class BlogsCreateView(generic.CreateView):
+    model = Blogs
+    form_class = AppBlogsForm
+    template_name = 'main/create_blogs.html'
+    success_url = '/blogs/'  # Перенаправление после успешного создания статьи

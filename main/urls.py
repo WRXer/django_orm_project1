@@ -1,8 +1,7 @@
 from django.urls import path
-
 from main.apps import MainConfig
 from main.views import ContactCreateView, IndexListView, ProductsDetailView, BlogsListView, ProductsListView, \
-    BlogsDetailView
+    BlogsDetailView, BlogsCreateView
 
 app_name = MainConfig.name
 
@@ -13,4 +12,6 @@ urlpatterns = [
     path('product_detail/<int:pk>/', ProductsDetailView.as_view(), name='product_detail'),
     path('blogs/', BlogsListView.as_view(), name= 'blogs'),
     path('blog_detail/<int:pk>/', BlogsDetailView.as_view(), name='blog_detail'),
+    path('blogs/create/', BlogsCreateView.as_view(), name='create_blogs'),
+
 ]
