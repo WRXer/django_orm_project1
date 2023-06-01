@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse
 from django.utils import timezone
 
 
@@ -56,6 +57,12 @@ class Blogs(models.Model):
 
     def __str__(self):
         return f'{self.name}'
+
+    # def delete(self, *args, **kwargs):
+    #     self.is_published = False
+    #     self.save()
+    def get_absolute_url(self):
+        return reverse('main:blog_detail', kwargs={'pk': self.pk})
 
     class Meta:
         verbose_name = "Blog"    # наименование модели в единственном числе

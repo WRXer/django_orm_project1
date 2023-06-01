@@ -3,7 +3,8 @@
 <form method="POST" enctype="multipart/form-data">
     {% csrf_token %}
     {{ form.as_p }}
-    <input type="submit" class="btn btn-success" value="Создать">
+    Уверены, что хотите удалить?
+    <input type="submit" class="btn btn-danger" value="Уверен">
     <a href="{%url 'main:blogs' %}" class="btn btn-primary">Назад</a>
 </form>
 {% endblock %}

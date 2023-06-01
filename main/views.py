@@ -1,4 +1,6 @@
+from django.shortcuts import redirect
 from django.views import generic
+from django.urls import reverse_lazy
 from main.models import Category, Product, Blogs, Contacts
 from .forms import AppBlogsForm
 
@@ -83,3 +85,20 @@ class BlogsCreateView(generic.CreateView):
     form_class = AppBlogsForm
     template_name = 'main/create_blogs.html'
     success_url = '/blogs/'  # Перенаправление после успешного создания статьи
+
+
+class BlogsUpdateView(generic.UpdateView):
+    model = Blogs
+    form_class = AppBlogsForm
+    template_name = 'main/update_blogs.html'
+    #success_url = 'main/blog_detail/<int:pk>/'  # Перенаправление после успешного создания статьи
+
+    def form_valid(self, form):
+        self.object = form.save()
+        return redirect(self.object.get_absolute_url())
+
+
+class BlogsDeleteView(generic.DeleteView):
+    model = Blogs    #Модель
+    success_url = reverse_lazy('main:blogs')    #Адрес для перенаправления после успешного удаления
+

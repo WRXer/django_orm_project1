@@ -3,7 +3,7 @@
 <form method="POST" enctype="multipart/form-data">
     {% csrf_token %}
     {{ form.as_p }}
-    <input type="submit" class="btn btn-success" value="Создать">
+    <input type="submit" class="btn btn-success" value="Сохранить">
     <a href="{%url 'main:blogs' %}" class="btn btn-primary">Назад</a>
 </form>
 {% endblock %}
