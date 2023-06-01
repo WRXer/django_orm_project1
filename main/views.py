@@ -52,6 +52,13 @@ class BlogsListView(generic.ListView):
     extra_context = {
         'title': 'Блог'
     }
+    template_name = "main/blogs_list.html"
+
+    def get_queryset(self):
+        """
+        Фильтруйте статьи по положительному признаку публикации
+        """
+        return Blogs.objects.filter(is_published=True)
 
 
 class BlogsDetailView(generic.DetailView):
@@ -69,3 +76,4 @@ class BlogsDetailView(generic.DetailView):
 
         context = self.get_context_data(object=self.object)
         return self.render_to_response(context)
+
