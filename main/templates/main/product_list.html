@@ -9,7 +9,7 @@
                   <div class="card mb-4 box-shadow">
                     <div class="card-body">
                         <img class="img-thumbnail" src="{% mediapath object.image %}" alt="Thumbnail image" width="200" height="200"/>
-                        <p class="card-text"><a href="{% url 'main:product_details' product_id=object.id %}">{{ object.name }}</a></p>
+                        <p class="card-text"><a href="{% url 'main:product_detail' pk=object.id %}">{{ object.name }}</a></p>
                         <p class="card-text">{{ object.description }}</p>
                         <p class="card-text">{{ object.price }} руб.</p>
                           <div class="d-flex justify-content-between align-items-center">

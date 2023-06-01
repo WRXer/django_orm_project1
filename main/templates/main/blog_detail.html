@@ -1,0 +1,47 @@
+{% extends 'main/base.html' %}
+
+
+{% block content %}
+
+<style>
+    .centered-container {
+        text-align: center;
+    }
+    .centered-container ul {
+        display: inline-block;
+        text-align: left;
+    }
+</style>
+<style>
+        .blog_view {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #f0f0f0;
+            padding: 10px;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+    </style>
+    {% load my_tags %}
+    <ul>
+        <h4>{{ object.name }}</h4>
+        <img class="img-thumbnail" src="{% mediapath object.image %}" alt="Thumbnail image" width="200" height="200"/>
+
+    </ul>
+        <ul>
+            <div class="centered-container">
+
+              <div class="card mb-4 box-shadow">
+                <div class="card-body">
+                    <p style="text-align: left;">{{ object.description }} </p>
+                </div>
+              </div>
+
+                <div class="blog_view">
+                <p style="text-align: right;">Количество просмотров: {{ object.blog_views }}</p>
+                </div>
+
+            </div>
+        </ul>
+{% endblock %}

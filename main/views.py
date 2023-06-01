@@ -53,3 +53,19 @@ class BlogsListView(generic.ListView):
         'title': 'Блог'
     }
 
+
+class BlogsDetailView(generic.DetailView):
+    model = Blogs
+    template_name = 'main/blog_detail.html'
+    context_object_name = 'blog'
+
+    def get(self, request, *args, **kwargs):
+        """
+        Увеличиваем счетчик просмотров
+        """
+        self.object = self.get_object()
+        self.object.blog_views += 1
+        self.object.save()
+
+        context = self.get_context_data(object=self.object)
+        return self.render_to_response(context)
