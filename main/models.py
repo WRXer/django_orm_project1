@@ -2,6 +2,7 @@ from django.db import models
 from django.urls import reverse
 from django.utils import timezone
 from django.utils.text import slugify
+from transliterate import translit
 
 NULLABLE = {'blank': True, 'null': True}
 
@@ -57,7 +58,7 @@ class Blogs(models.Model):
 
     def save(self, *args, **kwargs):
         if not self.slug:
-            self.slug = slugify(self.name)
+            self.slug = slugify(translit(self.name, 'ru', reversed=True))
         super(Blogs, self).save(*args, **kwargs)
 
     def __str__(self):
