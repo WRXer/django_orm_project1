@@ -15,6 +15,9 @@
                                 <button type="button" class="btn btn-sm btn-outline-secondary"><a href="{% url 'main:update_blogs' object.pk %}">Редактировать</a></button>
                               <button type="button" class="btn btn-sm btn-outline-secondary"><a href="{% url 'main:delete_blogs' object.pk %}">Удалить</a></button>
                             </div>
+                              <div class="blog_view">
+                                <p style="text-align: right;">Количество просмотров: {{ object.blog_views }}</p>
+                              </div>
                           </div>
                         </div>
                       </div>
