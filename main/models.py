@@ -1,3 +1,4 @@
+from django.core.exceptions import ObjectDoesNotExist
 from django.db import models
 from django.urls import reverse
 from django.utils import timezone
@@ -73,3 +74,20 @@ class Blogs(models.Model):
     class Meta:
         verbose_name = "Blog"    # наименование модели в единственном числе
         verbose_name_plural = "Blogs"    # множественное число наименования модели
+
+
+class Version(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    version_number = models.CharField(max_length=50)
+    version_name = models.CharField(max_length=100)
+    is_active = models.BooleanField(default=False)
+
+    def __str__(self):
+        return f"{self.product} - {self.version_number} ({self.version_name})"
+
+    @classmethod
+    def get_active_version(cls, product):
+        try:
+            return cls.objects.get(product=product, is_active=True)
+        except ObjectDoesNotExist:
+            return None
