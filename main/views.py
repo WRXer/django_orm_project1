@@ -1,8 +1,9 @@
+from django.forms import formset_factory, inlineformset_factory
 from django.shortcuts import redirect
 from django.views import generic
 from django.urls import reverse_lazy
-from main.models import Category, Product, Blogs, Contacts
-from .forms import AppBlogsForm, ProductForm
+from main.models import Category, Product, Blogs, Contacts, Version
+from .forms import AppBlogsForm, ProductForm, VersionForm
 
 
 # Create your views here.
@@ -45,13 +46,40 @@ class ProductsUpdateView(generic.UpdateView):
     form_class = ProductForm
     success_url = reverse_lazy('main:products')
 
+    def get_context_data(self, **kwargs):
+        context_data = super().get_context_data(**kwargs)
+        VersionFormSet = inlineformset_factory(Product, Version, form=VersionForm, extra=1)
+        if self.request.method == 'POST':
+            context_data['formset'] = VersionFormSet(self.request.POST, instance=self.object)
+        else:
+            context_data['formset'] = VersionFormSet(instance=self.object)
+        return context_data
+
+    def form_valid(self, form):
+        context_data = self.get_context_data()
+        formset = context_data['formset']
+        self.object = form.save()
+
+        if formset.is_valid():
+            formset.instance = self.object
+            formset.save()
+        return super().form_valid(form)
+
 
 class ProductsListView(generic.ListView):
     model = Product
     extra_context = {
         'title': 'Все товары'
     }
+    context_object_name = 'products'
     ordering = ['id']
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        products = context['products']
+        for product in products:
+            product.active_version = product.get_active_version()
+        return context
 
 
 class ProductsDetailView(generic.DetailView):

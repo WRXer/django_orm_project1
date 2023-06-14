@@ -1,5 +1,5 @@
 from django import forms
-from main.models import Blogs, Product
+from main.models import Blogs, Product, Version
 
 
 class AppBlogsForm(forms.ModelForm):
@@ -35,3 +35,7 @@ class ProductForm(forms.ModelForm):
                 raise forms.ValidationError("Недопустимое слово в описании продукта.")
         return description
 
+class VersionForm(forms.ModelForm):
+    class Meta:
+        model = Version
+        fields = ('version_number', 'version_name', 'is_active')

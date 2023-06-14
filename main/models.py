@@ -39,9 +39,13 @@ class Product(models.Model):
     price = models.DecimalField(max_digits=10, decimal_places=2)     #цена за покупку,
     created_at = models.DateTimeField(default=timezone.now)    #дата создания,
     recreated_at = models.DateTimeField(auto_now=True)    #дата последнего изменения.
+    is_active = models.BooleanField(default=True, verbose_name='активно')
 
     def __str__(self):
         return f'{self.image}\n{self.name} {self.description}'
+
+    def get_active_version(self):
+        return Version.get_active_version(self)
 
     class Meta:
         verbose_name = "Product"   # наименование модели в единственном числе
@@ -78,12 +82,17 @@ class Blogs(models.Model):
 
 class Version(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
-    version_number = models.CharField(max_length=50)
-    version_name = models.CharField(max_length=100)
+    version_number = models.CharField(max_length=50, verbose_name='Номер версии')
+    version_name = models.CharField(max_length=100, verbose_name='Название версии')
     is_active = models.BooleanField(default=False)
 
     def __str__(self):
-        return f"{self.product} - {self.version_number} ({self.version_name})"
+        return f"{self.product} - {self.version_number} "
+
+    def save(self, *args, **kwargs):
+        if self.is_active:  # Деактивируем все другие версии для данного продукта
+            Version.objects.filter(product=self.product).exclude(pk=self.pk).update(is_active=False)
+        super().save(*args, **kwargs)
 
     @classmethod
     def get_active_version(cls, product):
