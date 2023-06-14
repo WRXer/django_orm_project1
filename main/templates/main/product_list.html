@@ -3,6 +3,13 @@
 {% block content %}
     <body>
         <ul>
+            <div class="col-4">
+                <div class="card mb-4 box-shadow">
+                    <div class="card-body">
+            <a href="{% url 'main:product_create' %}">Добавить продукт</a>
+                    </div>
+                </div>
+            </div>
             {% for object in object_list %}
                 {% load my_tags %}
                 <div class="col-md-14">
@@ -14,7 +21,7 @@
                         <p class="card-text">{{ object.price }} руб.</p>
                           <div class="d-flex justify-content-between align-items-center">
                             <div class="btn-group">
-                              <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
+                                <a href="{%  url 'main:product_update' object.pk%}" type="button" class="btn btn-sm btn-outline-secondary">Edit</a>
                               <button type="button" class="btn btn-sm btn-outline-secondary">Delete</button>
                             </div>
                             <small class="text-muted">9 mins</small>

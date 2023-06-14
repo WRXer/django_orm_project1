@@ -2,7 +2,7 @@ from django.shortcuts import redirect
 from django.views import generic
 from django.urls import reverse_lazy
 from main.models import Category, Product, Blogs, Contacts
-from .forms import AppBlogsForm
+from .forms import AppBlogsForm, ProductForm
 
 
 # Create your views here.
@@ -34,11 +34,24 @@ class ContactCreateView(generic.CreateView):
         return context_data
 
 
+class ProductsCreateView(generic.CreateView):
+    model = Product
+    form_class = ProductForm
+    success_url = reverse_lazy('main:products')
+
+
+class ProductsUpdateView(generic.UpdateView):
+    model = Product
+    form_class = ProductForm
+    success_url = reverse_lazy('main:products')
+
+
 class ProductsListView(generic.ListView):
     model = Product
     extra_context = {
         'title': 'Все товары'
     }
+    ordering = ['id']
 
 
 class ProductsDetailView(generic.DetailView):
