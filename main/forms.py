@@ -5,14 +5,14 @@ from main.models import Blogs, Product, Version
 class AppBlogsForm(forms.ModelForm):
     class Meta:
         model = Blogs
-        exclude = ['id']
+        #exclude = ['id']
         fields = ['name', 'slug', 'description', 'is_published', 'image']
 
 
 class ProductForm(forms.ModelForm):
     class Meta:
         model = Product
-        fields = '__all__'
+        #fields = '__all__'
         exclude = ('created_at', 'recreated_at')
 
     def clean_name(self):
