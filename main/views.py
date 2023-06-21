@@ -1,3 +1,4 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.forms import formset_factory, inlineformset_factory
 from django.shortcuts import redirect
 from django.views import generic
@@ -35,13 +36,16 @@ class ContactCreateView(generic.CreateView):
         return context_data
 
 
-class ProductsCreateView(generic.CreateView):
+class ProductsCreateView(LoginRequiredMixin, generic.CreateView):
     model = Product
     form_class = ProductForm
     success_url = reverse_lazy('main:products')
 
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super().form_valid(form)
 
-class ProductsUpdateView(generic.UpdateView):
+class ProductsUpdateView(LoginRequiredMixin, generic.UpdateView):
     model = Product
     form_class = ProductForm
     success_url = reverse_lazy('main:products')
@@ -64,6 +68,7 @@ class ProductsUpdateView(generic.UpdateView):
             formset.instance = self.object
             formset.save()
         return super().form_valid(form)
+
 
 
 class ProductsListView(generic.ListView):
@@ -121,14 +126,14 @@ class BlogsDetailView(generic.DetailView):
         return self.render_to_response(context)
 
 
-class BlogsCreateView(generic.CreateView):
+class BlogsCreateView(LoginRequiredMixin, generic.CreateView):
     model = Blogs
     form_class = AppBlogsForm
     template_name = 'main/create_blogs.html'
     success_url = '/blogs/'  # Перенаправление после успешного создания статьи
 
 
-class BlogsUpdateView(generic.UpdateView):
+class BlogsUpdateView(LoginRequiredMixin, generic.UpdateView):
     model = Blogs
     form_class = AppBlogsForm
     template_name = 'main/update_blogs.html'
@@ -139,7 +144,7 @@ class BlogsUpdateView(generic.UpdateView):
         return redirect(self.object.get_absolute_url())
 
 
-class BlogsDeleteView(generic.DeleteView):
+class BlogsDeleteView(LoginRequiredMixin, generic.DeleteView):
     model = Blogs    #Модель
     success_url = reverse_lazy('main:blogs')    #Адрес для перенаправления после успешного удаления
 
