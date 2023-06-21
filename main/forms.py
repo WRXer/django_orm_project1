@@ -35,6 +35,8 @@ class ProductForm(forms.ModelForm):
                 raise forms.ValidationError("Недопустимое слово в описании продукта.")
         return description
 
+
+
 class VersionForm(forms.ModelForm):
     class Meta:
         model = Version

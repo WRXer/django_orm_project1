@@ -42,7 +42,10 @@ class ProductsCreateView(LoginRequiredMixin, generic.CreateView):
     success_url = reverse_lazy('main:products')
 
     def form_valid(self, form):
-        form.instance.user = self.request.user
+        self.object = form.save()
+        self.object.product_owner = self.request.user
+        #form.instance.product_owner = self.request.user
+
         return super().form_valid(form)
 
 class ProductsUpdateView(LoginRequiredMixin, generic.UpdateView):
