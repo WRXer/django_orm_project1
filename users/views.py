@@ -1,11 +1,9 @@
 from django.conf import settings
 from django.contrib.auth.tokens import default_token_generator
-from django.core.exceptions import ValidationError
+from django.contrib.auth.views import PasswordResetView, PasswordResetDoneView, PasswordResetConfirmView, \
+    PasswordResetCompleteView
 from django.core.mail import send_mail
-from django.http import HttpResponse
 from django.shortcuts import redirect, render
-from django.utils.encoding import force_bytes
-from django.utils.http import urlsafe_base64_encode
 from django.views import View
 from django.urls import reverse_lazy, reverse
 from django.views.generic import CreateView, UpdateView, TemplateView
@@ -39,8 +37,6 @@ class RegisterView(CreateView):
         #return super().form_valid(form)
         return redirect('users:verify_email_sent')
 
-
-
 class ProfileView(UpdateView):
     model = User
     form_class = UserProfileForm
@@ -70,8 +66,6 @@ class VerifyEmailView(View):
         return user
 
 
-
-
 class VerifyEmailSentView(View):
     def get(self, request):
         return render(request, 'users/verify_email_sent.html')
@@ -81,3 +75,20 @@ class EmailConfirmedView(TemplateView):
     template_name = 'users/email_confirmed.html'
     #def get(self, request):
     #    return render(request, 'users/email_confirmed.html')
+
+
+class UserPasswordResetView(PasswordResetView):
+    email_template_name = 'users/registration/password_reset_email.html'
+    template_name = 'users/registration/password_reset_form.html'
+    success_url = reverse_lazy('users:password_reset_done')
+
+class UserPasswordResetDoneView(PasswordResetDoneView):
+    template_name = 'users/registration/password_reset_done.html'
+
+
+class UserPasswordResetConfirmView(PasswordResetConfirmView):
+    template_name = 'users/registration/password_reset_confirm.html'
+    success_url = reverse_lazy("users:password_reset_complete")
+
+class UserPasswordResetCompleteView(PasswordResetCompleteView):
+    template_name = 'users/registration/password_reset_complete.html'
