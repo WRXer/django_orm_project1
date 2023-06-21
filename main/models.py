@@ -1,3 +1,4 @@
+from django.contrib.auth import get_user_model
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import models
 from django.urls import reverse
@@ -42,7 +43,7 @@ class Product(models.Model):
     created_at = models.DateTimeField(default=timezone.now)    #дата создания,
     recreated_at = models.DateTimeField(auto_now=True)    #дата последнего изменения.
     is_active = models.BooleanField(default=True, verbose_name='активно')
-    product_owner = models.ForeignKey(settings.AUTH_USER, on_delete=models.CASCADE, null=True)
+    product_owner = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, null=True)
 
     def __str__(self):
         return f'{self.image}\n{self.name} {self.description}'
