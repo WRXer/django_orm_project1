@@ -1,5 +1,7 @@
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin, UserPassesTestMixin
+from django.core.exceptions import PermissionDenied
 from django.forms import formset_factory, inlineformset_factory
+from django.http import Http404
 from django.shortcuts import redirect
 from django.views import generic
 from django.urls import reverse_lazy
@@ -45,6 +47,7 @@ class ProductsCreateView(LoginRequiredMixin, generic.CreateView):
         self.object = form.save()
         self.object.product_owner = self.request.user
         #form.instance.product_owner = self.request.user
+        self.object.save()
         return super().form_valid(form)
 
 
@@ -57,11 +60,18 @@ class ProductsDeleteView(LoginRequiredMixin, UserPassesTestMixin, generic.Delete
     def test_func(self):
         return self.request.user.is_superuser
 
+
 class ProductsUpdateView(LoginRequiredMixin, PermissionRequiredMixin, generic.UpdateView):
     model = Product
     form_class = ProductForm
     permission_required = 'main.change_product'
     success_url = reverse_lazy('main:products')
+
+    def get_object(self, queryset=None):
+        self.object=super().get_object(queryset)
+        if self.object.product_owner != self.request.user and not self.request.user.is_staff:
+            raise Http404
+        return self.object
 
     def get_context_data(self, **kwargs):
         context_data = super().get_context_data(**kwargs)
@@ -82,6 +92,9 @@ class ProductsUpdateView(LoginRequiredMixin, PermissionRequiredMixin, generic.Up
             formset.save()
         return super().form_valid(form)
 
+    def test_func(self):
+        product = self.get_object()
+        return product.product_owner == self.request.user or self.request.user.is_staff or self.request.user.is_superuser
 
 
 class ProductsListView(generic.ListView):
@@ -92,12 +105,23 @@ class ProductsListView(generic.ListView):
     context_object_name = 'products'
     ordering = ['id']
 
-    def get_context_data(self, **kwargs):
+
+    def get_context_data(self,*args, **kwargs):
         context = super().get_context_data(**kwargs)
         products = context['products']
         for product in products:
             product.active_version = product.get_active_version()
         return context
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        if self.request.user.is_authenticated:
+            if not self.request.user.is_superuser:
+                if not self.request.user.is_staff:
+                    queryset = queryset.filter(product_owner=self.request.user)
+        return queryset
+
+
 
 
 class ProductsDetailView(generic.DetailView):

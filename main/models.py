@@ -10,6 +10,8 @@ from config import settings
 
 NULLABLE = {'blank': True, 'null': True}
 
+
+
 class Category(models.Model):
     name = models.CharField(max_length=255)    #наименование,
     description = models.TextField()    #описание.
@@ -54,6 +56,9 @@ class Product(models.Model):
     class Meta:
         verbose_name = "Product"   # наименование модели в единственном числе
         verbose_name_plural = "Products"    # множественное число наименования модели
+        permissions = [
+            ("change_product", "Can change product"),
+        ]
 
 
 class Blogs(models.Model):
