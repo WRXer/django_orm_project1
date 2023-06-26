@@ -1,4 +1,4 @@
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin, UserPassesTestMixin
 from django.forms import formset_factory, inlineformset_factory
 from django.shortcuts import redirect
 from django.views import generic
@@ -45,12 +45,22 @@ class ProductsCreateView(LoginRequiredMixin, generic.CreateView):
         self.object = form.save()
         self.object.product_owner = self.request.user
         #form.instance.product_owner = self.request.user
-
         return super().form_valid(form)
 
-class ProductsUpdateView(LoginRequiredMixin, generic.UpdateView):
+
+
+
+class ProductsDeleteView(LoginRequiredMixin, UserPassesTestMixin, generic.DeleteView):
+    model = Product  # Модель
+    success_url = reverse_lazy('main:products')  # Адрес для перенаправления после успешного удаления
+
+    def test_func(self):
+        return self.request.user.is_superuser
+
+class ProductsUpdateView(LoginRequiredMixin, PermissionRequiredMixin, generic.UpdateView):
     model = Product
     form_class = ProductForm
+    permission_required = 'main.change_product'
     success_url = reverse_lazy('main:products')
 
     def get_context_data(self, **kwargs):

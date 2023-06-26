@@ -1,0 +1,22 @@
+{% extends 'main/base.html' %}
+{% block content %}
+    <div class="col-12">
+        <form class='row' method="POST" enctype="multipart/form-data">
+            <div class="col-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">
+                            Удаление продукта
+                        </h3>
+                    </div>
+                        <div class="card-body">
+                            {% csrf_token %}
+                            Удалить продукт {{ object }}?
+                            <input type="submit" class="btn btn-success" value="Удалить">
+                            <a href="{%url 'main:products' %}" class="btn btn-primary">Назад</a>
+                        </div>
+                </div>
+            </div>
+        </form>
+    </div>
+{% endblock %}
