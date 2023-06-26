@@ -56,9 +56,7 @@ class Product(models.Model):
     class Meta:
         verbose_name = "Product"   # наименование модели в единственном числе
         verbose_name_plural = "Products"    # множественное число наименования модели
-        permissions = [
-            ("change_product", "Can change product"),
-        ]
+
 
 
 class Blogs(models.Model):
