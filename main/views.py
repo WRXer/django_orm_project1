@@ -1,7 +1,7 @@
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin, UserPassesTestMixin
-from django.core.exceptions import PermissionDenied
+
 from django.forms import formset_factory, inlineformset_factory
-from django.http import Http404, HttpResponseForbidden
+
 from django.shortcuts import redirect
 from django.views import generic
 from django.urls import reverse_lazy
@@ -17,8 +17,8 @@ class IndexListView(generic.ListView):
     }
 
 
-# def contact(request):
-#     if request.method == 'POST':
+ #def contact(request):
+ #    if request.method == 'POST':
 #         name = request.POST.get('name')
 #         email = request.POST.get('email')
 #         message = request.POST.get('message')
@@ -42,7 +42,7 @@ class ProductsCreateView(LoginRequiredMixin, generic.CreateView):
     model = Product
     form_class = ProductForm
     success_url = reverse_lazy('main:products')
-    #permission_required = 'main.add_product'
+    permission_required = 'main.add_product'
 
     def form_valid(self, form):
         self.object = form.save()
@@ -50,7 +50,6 @@ class ProductsCreateView(LoginRequiredMixin, generic.CreateView):
         form.instance.product_owner = self.request.user
         self.object.save()
         return super().form_valid(form)
-
 
 
 
@@ -62,7 +61,7 @@ class ProductsDeleteView(LoginRequiredMixin, UserPassesTestMixin, generic.Delete
         return self.request.user.is_superuser
 
 
-class ProductsUpdateView(LoginRequiredMixin, PermissionRequiredMixin, generic.UpdateView):
+class ProductsUpdateView(LoginRequiredMixin, generic.UpdateView):
     model = Product
     form_class = ProductForm
     permission_required = 'main.change_product'
@@ -74,6 +73,7 @@ class ProductsUpdateView(LoginRequiredMixin, PermissionRequiredMixin, generic.Up
     #        raise Http404
     #    return self.object
 
+
     def get_context_data(self, **kwargs):
         context_data = super().get_context_data(**kwargs)
         VersionFormSet = inlineformset_factory(Product, Version, form=VersionForm, extra=1)
@@ -84,8 +84,7 @@ class ProductsUpdateView(LoginRequiredMixin, PermissionRequiredMixin, generic.Up
         return context_data
 
     def form_valid(self, form):
-        if not self.request.user.has_perm('catalog.can_change_product_description'):
-            return HttpResponseForbidden("You don't have permission to change product description.")
+
         context_data = self.get_context_data()
         formset = context_data['formset']
         self.object = form.save()
@@ -95,9 +94,9 @@ class ProductsUpdateView(LoginRequiredMixin, PermissionRequiredMixin, generic.Up
             formset.save()
         return super().form_valid(form)
 
-    #def test_func(self):
-    #    product = self.get_object()
-    #    return product.product_owner == self.request.user or self.request.user.is_staff or self.request.user.is_superuser
+    def test_func(self):
+        product = self.get_object()
+        return product.product_owner == self.request.user or self.request.user.is_staff or self.request.user.is_superuser
 
 
 class ProductsListView(generic.ListView):
@@ -110,10 +109,8 @@ class ProductsListView(generic.ListView):
 
 
     def get_context_data(self,*args, **kwargs):
-        context = super().get_context_data(**kwargs)
+        context = super().get_context_data(*args, **kwargs)
         products = context['products']
-        for product in products:
-            product.active_version = product.get_active_version()
         return context
 
     def get_queryset(self):

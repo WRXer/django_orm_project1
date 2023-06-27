@@ -51,7 +51,7 @@ class VerifyEmailView(View):
         user = self.get_user(uidb64)
 
         if user is not None and default_token_generator.check_token(user,token):
-            user.is_autheniceated = True
+            user.is_active = True
             user.save()
             login(request, user)
             return redirect('users:email_confirmed')

@@ -6,14 +6,16 @@ class AppBlogsForm(forms.ModelForm):
     class Meta:
         model = Blogs
         #exclude = ['id']
+
         fields = ['name', 'slug', 'description', 'is_published', 'image']
+
 
 
 class ProductForm(forms.ModelForm):
     class Meta:
         model = Product
         #fields = '__all__'
-        exclude = ('created_at', 'recreated_at', 'product_owner')
+        exclude = ('created_at', 'recreated_at', 'product_owner', 'is_active')
 
     def clean_name(self):
         name = self.cleaned_data['name']

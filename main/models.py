@@ -10,6 +10,7 @@ from config import settings
 
 NULLABLE = {'blank': True, 'null': True}
 
+User = get_user_model()
 
 
 class Category(models.Model):
@@ -44,7 +45,7 @@ class Product(models.Model):
     price = models.DecimalField(max_digits=10, decimal_places=2)     #цена за покупку,
     created_at = models.DateTimeField(default=timezone.now)    #дата создания,
     recreated_at = models.DateTimeField(auto_now=True)    #дата последнего изменения.
-    is_active = models.BooleanField(default=True, verbose_name='активно')
+    is_active = models.BooleanField(default=False, verbose_name='активно')
     product_owner = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, null=True)
 
     def __str__(self):
@@ -56,13 +57,10 @@ class Product(models.Model):
     class Meta:
         verbose_name = "Product"   # наименование модели в единственном числе
         verbose_name_plural = "Products"    # множественное число наименования модели
-
-        #permissions = [
-        #        ("can_cancel_product_publication", "Can cancel product publication"),
-        #        ("can_change_product_description", "Can change product description"),
-        #        ("can_change_product_category", "Can change product category"),
-        #    ]
-
+        permissions = [
+            ('create_product', 'Can add Product'),
+            ("update_product", "Can update product")
+        ]
 
 class Blogs(models.Model):
     name = models.CharField(max_length=100, verbose_name="blog_name")    #заголовок

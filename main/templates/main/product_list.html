@@ -3,13 +3,11 @@
 {% block content %}
     <body>
         <ul>
-        {% if perms.main.add_product %}
-            <div class="col-4">
+        {% if user.is_authenticated and not request.user.is_staff %}
+            <div class="col-12">
                 <div class="card mb-4 box-shadow">
                     <div class="card-body">
-
                             <a href="{% url 'main:product_create' %}">Добавить продукт</a>
-
                     </div>
                 </div>
             </div>
@@ -29,7 +27,7 @@
                           <div class="d-flex justify-content-between align-items-center">
                             <div class="btn-group">
 
-                                {% if perms.main.change_product %}
+                                {% if object.product_owner == request.user or request.user.is_staff or request.user.is_superuser %}
                                     <a href="{%  url 'main:product_update' object.pk%}" type="button" class="btn btn-sm btn-outline-secondary">Edit</a>
                                 {% endif %}
                                 {% if user.is_superuser %}

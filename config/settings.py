@@ -156,3 +156,4 @@ DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
 AUTH_USER = "users.User"
 LOGIN_URL = 'users:login'
+AUTH_USER_MODEL = 'users.User'
