@@ -1,13 +1,40 @@
 {% extends 'main/base.html' %}
 
     {% block content %}
+        <style>
+        .form-row {
+            margin-bottom: 10px;  /* Измените значение здесь для увеличения интервала */
+        }
+    </style>
+        <div class="col-12">
+        <form class='row' method="POST" enctype="multipart/form-data">
+            <div class="col-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">
+                            Добавление продукта
+                        </h3>
+                    </div>
+                        <div class="card-body">
+                            {% csrf_token %}
+                            <div class="form-row">
+                            Название {{ form.name}}<br>
+                        </div>
+                        <div class="form-row">
+                            Описание {{ form.description}}</div>
+                        <div class="form-row">
+                            Изображение {{ form.image}} <br></div>
+                        <div class="form-row">
+                            Категория {{ form.category}}<br></div>
+                        <div class="form-row">
+                            Цена {{ form.price}}<br></div>
 
-        <form method="POST" enctype="multipart/form-data">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <input type="submit" class="btn btn-success" value="Создать">
-            <a href="{%url 'main:product_list' %}" class="btn btn-primary">Назад</a>
+                            <input type="submit" class="btn btn-success" value="Создать">
+                            <a href="{%url 'main:products' %}" class="btn btn-primary">Назад</a>
+                        </div>
+                </div>
+            </div>
         </form>
-
+    </div>
     {% endblock %}
 

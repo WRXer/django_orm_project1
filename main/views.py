@@ -43,6 +43,8 @@ class ProductsCreateView(LoginRequiredMixin, generic.CreateView):
     form_class = ProductForm
     success_url = reverse_lazy('main:products')
     permission_required = 'main.add_product'
+    template_name = 'main/product_create.html'
+
 
     def form_valid(self, form):
         self.object = form.save()

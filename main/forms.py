@@ -14,8 +14,9 @@ class AppBlogsForm(forms.ModelForm):
 class ProductForm(forms.ModelForm):
     class Meta:
         model = Product
-        #fields = '__all__'
-        exclude = ('created_at', 'recreated_at', 'product_owner', 'is_active')
+        fields = ('name', 'description', 'image', 'category', 'price', 'is_active')
+        #exclude = ('created_at', 'recreated_at', 'product_owner', 'is_active')
+
 
     def clean_name(self):
         name = self.cleaned_data['name']
