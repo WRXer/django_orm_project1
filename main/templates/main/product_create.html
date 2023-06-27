@@ -1,6 +1,7 @@
 {% extends 'main/base.html' %}
 
     {% block content %}
+        {% if user.is_authenticated and not request.user.is_staff or user.is_superuser %}
         <style>
         .form-row {
             margin-bottom: 10px;  /* Измените значение здесь для увеличения интервала */
@@ -36,5 +37,7 @@
             </div>
         </form>
     </div>
+            {% else %} У вас нет доступа
+        {% endif %}
     {% endblock %}
 
