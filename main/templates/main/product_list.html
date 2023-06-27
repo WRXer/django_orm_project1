@@ -3,13 +3,17 @@
 {% block content %}
     <body>
         <ul>
+        {% if perms.main.add_product %}
             <div class="col-4">
                 <div class="card mb-4 box-shadow">
                     <div class="card-body">
-            <a href="{% url 'main:product_create' %}">Добавить продукт</a>
+
+                            <a href="{% url 'main:product_create' %}">Добавить продукт</a>
+
                     </div>
                 </div>
             </div>
+        {%  endif %}
             {% for object in object_list %}
                 {% load my_tags %}
                 <div class="col-md-14">
